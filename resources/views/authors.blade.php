@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Book Genre</title>
+    <title>Book Author</title>
 </head>
 <body>
-    <h1>Ini adalah halaman genre dari buku</h1>
+    <h1>Berikut adalah halaman author</h1>
 
-    @foreach ($genres as $item)
+    @foreach ($authors as $item)
         <ul>
             <li>{{ $item['id'] }}</li>
             <li>{{ $item['nama'] }}</li>
         </ul>
         
     @endforeach
+    
 </body>
 </html>
