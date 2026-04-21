@@ -7,8 +7,8 @@
     <title>Selamat Datang</title>
 </head>
 <body>
-    <h1>Hello World</h1>
-    <p>Selamat Datang di Toko Booksales</p>
+    <h1>Selamat Datang di Toko Booksales</h1>
+    <p>Berikut adalah beberapa buku yang ditawarkan</p>
 
     @foreach ($books as $book)
         <ul>

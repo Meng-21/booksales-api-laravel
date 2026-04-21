@@ -13,7 +13,7 @@ class BookSeeder extends Seeder
      */
     public function run(): void
     {
-        Book::insert([
+        Book::create([
             [
                 'author_id' => 1,
                 'title' => 'Hujan',

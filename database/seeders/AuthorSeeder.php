@@ -13,7 +13,7 @@ class AuthorSeeder extends Seeder
      */
     public function run(): void
     {
-        Author::insert([
+        Author::create([
             ['name' => 'Tere Liye','email' => 'tere@123.com'],
             ['name' => 'Andrea Hirata', 'email' => 'andrea@678.com'],
             ['name' => 'Pramoedya', 'email' => 'pram@oed.com'],

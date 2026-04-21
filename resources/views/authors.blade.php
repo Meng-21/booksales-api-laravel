@@ -8,6 +8,7 @@
 </head>
 <body>
     <h1>Berikut adalah halaman author</h1>
+    <p>Daftar Nama Author</p>
 
     @foreach ($authors as $author)
         <ul>

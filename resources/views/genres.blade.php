@@ -8,6 +8,7 @@
 </head>
 <body>
     <h1>Ini adalah halaman genre dari buku</h1>
+    <h3>Genre yang tersedia sbb: </h3>
 
     @foreach ($genres as $genre)
         <ul>
