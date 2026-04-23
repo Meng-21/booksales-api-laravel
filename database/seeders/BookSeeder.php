@@ -14,37 +14,54 @@ class BookSeeder extends Seeder
     public function run(): void
     {
         Book::create([
-            [
-                'author_id' => 1,
-                'title' => 'Hujan',
-                'description' => 'Novel tentang masa depan',
-                'year' => 2016
-            ],
-            [
-                'author_id' => 2,
-                'title' => 'Laskar Pelangi',
-                'description' => 'Kisah inspiratif anak sekolah',
-                'year' => 2005
-            ],
-            [
-                'author_id' => 3,
-                'title' => 'Bumi Manusia',
-                'description' => 'Sejarah Indonesia',
-                'year' => 1980
-            ],
-            [
-                'author_id' => 4,
-                'title' => 'Supernova',
-                'description' => 'Fiksi ilmiah',
-                'year' => 2001
-            ],
-            [
-                'author_id' => 5,
-                'title' => 'Ayat Ayat Cinta',
-                'description' => 'Novel religi',
-                'year' => 2004
-            ],
-         ]);
+            'title' => 'Laskar Pelangi',
+            'description' => 'An inspiring story about the struggle of a group of students and their teacher in Belitung',
+            'price' => 40000,
+            'stock' => 5,
+            'cover_photo' => 'laskar_pelangi.jpg',
+            'genre_id' => 1,
+            'author_id' => 1,
+        ]);
+
+        Book::create([
+            'title' => 'Bumi Manusia',
+            'description' => 'A historical novel set in colonial Indonesia',
+            'price' => 50000,
+            'stock' => 7,
+            'cover_photo' => 'bumi_manusia.jpg',
+            'genre_id' => 2,
+            'author_id' => 2,
+        ]);
+
+        Book::create([
+            'title' => 'Dilan 1990',
+            'description' => 'A romantic high school love story',
+            'price' => 35000,
+            'stock' => 10,
+            'cover_photo' => 'dilan_1990.jpg',
+            'genre_id' => 3,
+            'author_id' => 4,
+        ]);
+
+        Book::create([
+            'title' => 'Negeri 5 Menara',
+            'description' => 'A story about students in Islamic boarding school chasing their dreams',
+            'price' => 45000,
+            'stock' => 6,
+            'cover_photo' => 'negeri_5_menara.jpg',
+            'genre_id' => 1,
+            'author_id' => 5,
+        ]);
+
+        Book::create([
+            'title' => 'Ayat-Ayat Cinta',
+            'description' => 'A religious and romantic story set in Egypt',
+            'price' => 48000,
+            'stock' => 4,
+            'cover_photo' => 'ayat_ayat_cinta.jpg',
+            'genre_id' => 4,
+            'author_id' => 1,
+        ]);
 
     }
 }

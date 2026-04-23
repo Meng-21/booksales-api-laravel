@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('author_id')->constrained()->cascadeOnDelete();
             $table->string('title');
-            $table->text('description')->nullable();
-            $table->integer('year');
+            $table->text('description');
+            $table->integer('price');
+            $table->integer('stock');
+            $table->string('cover_photo');
+            $table->unsignedBigInteger('genre_id');     //untuk menampung data integer yang besar dapat menggunakan relasi 
+            $table->unsignedBigInteger('author_id');
             $table->timestamps();
         });
     }

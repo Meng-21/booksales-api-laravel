@@ -6,10 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
-    protected $fillable = ['author_id','title','description','year'];
-    public function author()
-    {
-        return $this->belongsTo(Author::class);
-    }
+    protected $table ='books';
 
+
+    protected $fillable = ['title','description','price','stock','cover_photo','genre_id','author_id'];  //diisi table yang ada di table books untuk menghandle assigntment
 }

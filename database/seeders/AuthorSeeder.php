@@ -14,11 +14,28 @@ class AuthorSeeder extends Seeder
     public function run(): void
     {
         Author::create([
-            ['name' => 'Tere Liye','email' => 'tere@123.com'],
-            ['name' => 'Andrea Hirata', 'email' => 'andrea@678.com'],
-            ['name' => 'Pramoedya', 'email' => 'pram@oed.com'],
-            ['name' => 'Dee Lestari', 'email' => 'dee@lar.com'],
-            ['name' => 'Habiburrahman', 'email' => 'habib@rahman.com'],
+            'name' => 'Tere Liye',
+            'email' => 'tere@123.com'
+         ]);
+
+        Author::create([
+            'name' => 'Pramoedya Ananta Toer',
+            'email' => 'pram@oeed.com',
+        ]);
+
+        Author::create([
+            'name' => 'Andrea Hirata',
+            'email' => 'andrea@678.com',
+        ]);
+
+        Author::create([
+            'name' => 'Pidi Baiq',
+            'email' => 'pidi@baiq.com',
+        ]);
+
+        Author::create([
+            'name' => 'Ahmad Fuadi',
+            'email' => 'fuadi@menara.com',
         ]);
     }
 }

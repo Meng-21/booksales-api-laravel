@@ -27,5 +27,20 @@ class GenreSeeder extends Seeder
             'name'=>'Fantasi',
             'description'=>'Genre yang mengekplorasi imajinasi dan dunia tak nyata. '
         ]);
+
+        Genre::create([
+            'name' => 'Horor',
+            'description' => 'Genre yang bertujuan menimbulkan rasa takut, tegang, dan misteri.'
+        ]);
+
+        Genre::create([
+            'name' => 'Sejarah',
+            'description' => 'Genre yang mengangkat peristiwa atau latar belakang sejarah nyata.'
+        ]);
+
+        Genre::create([
+            'name' => 'Fiksi Ilmiah',
+            'description' => 'Genre yang menggabungkan sains, teknologi, dan imajinasi masa depan.'
+        ]);
     }
 }
