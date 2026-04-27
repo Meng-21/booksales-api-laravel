@@ -123,13 +123,14 @@ class GenreController extends Controller
             ],200);
         }
 
-        if (!$genre){
+
+            $genre->delete();
+        
+            if (!$genre){
                 return response()->json([
                     'success'=>false,
                     'massage'=> 'Resource not found'
                 ],404);
             }
-
-            $genre->delete();
     }
 }
