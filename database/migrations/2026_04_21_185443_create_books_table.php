@@ -18,8 +18,8 @@ return new class extends Migration
             $table->integer('price');
             $table->integer('stock');
             $table->string('cover_photo');
-            $table->unsignedBigInteger('genre_id');     //untuk menampung data integer yang besar dapat menggunakan relasi 
-            $table->unsignedBigInteger('author_id');
+            $table->foreignId('genre_id')->constrained('genres')->onDelete('cascade');     //untuk menampung data integer yang besar dapat menggunakan relasi 
+            $table->foreignId('author_id')->constrained('authors')->onDelete('cascade');
             $table->timestamps();
         });
     }
