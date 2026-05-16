@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class BookController extends Controller
 {
     public function index(){
-        
+
         $books =Book::all();
 
         if ($books->isEmpty()){
@@ -25,10 +25,20 @@ class BookController extends Controller
             "massage" => "Get all resources",
             "data" => $books
         ],200);
+
     }
 
+
+
+
+
+
+
+
+
+
     public function store(Request $request){
-        //1.membuat validator untuk memvalidasi semua nya 
+        //1.membuat validator untuk memvalidasi semua nya
        $validator = Validator::make($request ->all(),[
             'title'=> 'required|string|max:100',
             'description'=> 'required|string',
@@ -53,7 +63,7 @@ class BookController extends Controller
         $image->store('books','public');
 
 
-        //4. meng insert data 
+        //4. meng insert data
         $book = Book::create([
             'title'=> $request->title,
             'description'=> $request->description,
@@ -65,7 +75,7 @@ class BookController extends Controller
 
         ]);
 
-        //5. menampilkan response 
+        //5. menampilkan response
         return response()->json([
             'success'=>true,
             'message' => 'Resource added successflly!',
@@ -91,7 +101,7 @@ class BookController extends Controller
     }
 
     public function update(string $id, Request $request){
-        //1. menacari data 
+        //1. menacari data
         $book = Book::find($id);
 
         if (!$book){
@@ -102,7 +112,7 @@ class BookController extends Controller
         }
 
 
-        //2. melakukan validator 
+        //2. melakukan validator
         $validator = Validator::make($request ->all(),[
             'title'=> 'required|string|max:100',
             'description'=> 'required|string',
@@ -120,7 +130,7 @@ class BookController extends Controller
             ],422);
         }
 
-        //3. menyiapkan data yang di update 
+        //3. menyiapkan data yang di update
         $data =[
             'title'=> $request->title,
             'description'=> $request->description,
@@ -130,7 +140,7 @@ class BookController extends Controller
             'author_id'=> $request->author_id,
         ];
 
-        // 4. handle image 
+        // 4. handle image
         if ($request->hasFile('cover_photo')){
             $image = $request->file('cover_photo');
              $image->store('books','public');
@@ -142,14 +152,14 @@ class BookController extends Controller
              $data['cover_photo'] = $image ->hashName();
         }
 
-        //update data baru ke database 
+        //update data baru ke database
         $book ->update($data);
 
         return response()->json([
             'success'=>true,
             'message' => 'Resource update successflly!',
             'data'=> $book
-        ],200);    
+        ],200);
  }
 
     public function destroy(string $id){
@@ -174,4 +184,18 @@ class BookController extends Controller
             'message'=>'Delete Resource Succesfully'
         ],200);
     }
+
+
+    public function bestSeller()
+{
+    $books = Book::withCount('transactions')
+        ->orderByDesc('transactions_count')
+        ->take(5)
+        ->get();
+
+    return response()->json([
+        "success" => true,
+        "data" => $books
+    ]);
+}
 }

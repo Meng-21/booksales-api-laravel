@@ -9,7 +9,7 @@ class Transaction extends Model
     protected $table= 'transactions';
 
     protected $fillable = [
-        'order_number', 'customer_id', 'book_id','total_amount'
+        'order_number', 'customer_id', 'book_id','quantity','total_amount'
     ];
 
 

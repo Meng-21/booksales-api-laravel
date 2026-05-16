@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class TransactionController extends Controller
@@ -28,66 +29,65 @@ class TransactionController extends Controller
 
 
     //create
-    public function store(Request $request){
-       //1.validator dan cek validator
+public function store(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'book_id' => 'required|exists:books,id',
+        'quantity' => 'required|integer|min:1'
+    ]);
 
-       $validator =Validator::make($request ->all(),[
-            'book_id'=>'required|exists:books,id',
-            'quantity'=> 'required|integer|min:1'
-        ]);
-
-        if ($validator->fails()){
-            return response()->json([
-                'success'=> false,
-                'message'=>'Validation erorr',
-                'data'=> $validator->errors()
-            ],422);
-        }
-       
-       //2. generate order number harus unique  | ORD -0001
-       $uniqueCode ='ORD-' . strtoupper(uniqid());
-       //3. AMBIL USER YANG SEDANG LOGIN (APAKAH DATA USER??)
-       $user =auth('api')->user();
-
-       if(!$user){
+    if ($validator->fails()) {
         return response()->json([
-            'success'=> false,
-            'message'=> 'Unauthorized'
-        ],401);
-       }
-       //4. mencari data buku dari req
-        $book =Book::find($request ->book_id);
-
-       //5. cek status stok buku
-        if($book->stock < $request->quantity){
-            return response()->json([
-                'success'=>false,
-                'message'=>'stock barang tidak cukup'
-            ],400);
-        }
-
-       //6. hitung total harga = price +quantity
-       $totalAmount = $book ->price * $request->quantity;
-
-       //7. kurangi stock buku (update)
-        $book-> stock -= $request -> quantity;
-        $book->save();
-       //8. simpan data transaksi
-
-       $transactions =Transaction::create([
-        'order_number'=> $uniqueCode,
-        'customer_id'=>$user->id,
-        'quantity'=>$request->quantity,
-        'book_id'=> $request->book_id,
-        'total_amount'=>$totalAmount
-       ]);
-
-       return response()->json([
-        'success'=> true,
-        'message'=> 'Transaction created successfully',
-        'data'=> $transactions
-       ],201);
+            'success' => false,
+            'message' => 'Validation error',
+            'data' => $validator->errors()
+        ], 422);
     }
+
+    $user = auth('api')->user();
+
+    if (!$user) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Unauthorized'
+        ], 401);
+    }
+
+    $book = Book::find($request->book_id);
+
+    // cek stock
+    if ($book->stock < $request->quantity) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Stock tidak cukup'
+        ], 400);
+    }
+
+    // generate order
+    $uniqueCode = 'ORD-' . strtoupper(uniqid());
+
+    // hitung total
+    $totalAmount = $book->price * $request->quantity;
+
+    // KURANGI STOCK (HANYA SEKALI)
+    $book->stock -= $request->quantity;
+    $book->save();
+
+    // simpan transaksi
+    $transaction = Transaction::create([
+        'order_number' => $uniqueCode,
+        'customer_id' => $user->id,
+        'quantity' => $request->quantity,
+        'book_id' => $request->book_id,
+        'total_amount' => $totalAmount
+    ]);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Transaction created successfully',
+        'data' => $transaction
+    ], 201);
+}
 
 
     //show
@@ -184,7 +184,7 @@ class TransactionController extends Controller
     }
 
 
-    //destroy 
+    //destroy
     public function destroy($id){
         $user = auth('api')->user();
 
@@ -216,4 +216,29 @@ class TransactionController extends Controller
             'message'=> 'Transaksi berhasil dihapus'
         ],200);
     }
+
+    // history transaksi user login
+    public function history()
+    {
+        $user = auth('api')->user();
+
+        if(!$user){
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized'
+            ],401);
+        }
+
+        $transaction = Transaction::with('book')
+            ->where('customer_id', $user->id)
+            ->latest()
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Get history transaction',
+            'data' => $transaction
+        ],200);
+    }
+
 }
